@@ -7,8 +7,6 @@ import {
     PrimaryGeneratedColumn,
 } from 'typeorm';
 import { RoleEntity } from './role.entity';
-// import { TipoDniEntity } from './tipoDni.entity';
-import { VentaEntity } from './venta.entity';
 
 @Entity('users')
 export class UserEntity {
@@ -46,7 +44,4 @@ export class UserEntity {
     // @ManyToOne(() => TipoDniEntity, (tipoDni) => tipoDni.users, { eager: true })
     // @JoinColumn({ name: 'tipoDniId' })
     // tipoDni: TipoDniEntity;
-
-    @OneToMany(() => VentaEntity, (venta) => venta.cliente, { cascade: true })
-    ventas: VentaEntity[];
 }

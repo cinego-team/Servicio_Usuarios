@@ -6,9 +6,9 @@ import { JwtService } from "../jwt/jwt.service";
 import { UserEntity } from "../entities/user.entity";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserEntity])],
-  controllers: [UsersController],
-  providers: [UsersService, JwtService],
-  exports: [UsersService],
+    imports: [TypeOrmModule.forFeature([UserEntity])],
+    controllers: [UsersController],
+    providers: [UsersService, JwtService],
+    exports: [UsersService],
 })
-export class UsersModule {}
+export class UsersModule { }
