@@ -12,7 +12,7 @@ import { PermissionEntity } from './permissions.entity';
 import { UserEntity } from './user.entity';
 import { TipoClienteEntity } from './tipoCliente.entity';
 
-@Entity('role')
+@Entity('roles')
 export class RoleEntity {
     @PrimaryGeneratedColumn()
     id: number;
@@ -26,11 +26,15 @@ export class RoleEntity {
     @OneToOne(() => TipoClienteEntity, (tipoCliente) => tipoCliente.role, {
         nullable: true,
     })
-    @JoinColumn()
+    @JoinColumn({ name: 'tipo_cliente' })
     tipoCliente: TipoClienteEntity | null;
 
     @ManyToMany(() => PermissionEntity)
-    @JoinTable()
+    @JoinTable({
+        name: 'roles_permissions',
+        joinColumn: { name: 'role_id', referencedColumnName: 'id' },
+        inverseJoinColumn: { name: 'permission_id', referencedColumnName: 'id' },
+    })
     permissions: PermissionEntity[];
 
     getPermissionCodes(): string[] {

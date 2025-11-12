@@ -25,20 +25,20 @@ export class UserEntity {
     @Column({ type: 'varchar', length: 255 })
     contrasena: string;
 
-    @Column({ type: 'date' })
+    @Column({ type: 'date', name: 'fecha_nacimiento' })
     fechaNacimiento: Date;
 
     // @Column({ type: 'varchar', length: 15, unique: true })
     // nroDni: string;
 
-    @Column({ type: 'varchar', length: 20 })
+    @Column({ type: 'varchar', length: 20, name: 'nro_telefono' })
     nroTelefono: string;
 
     @Column({ nullable: true })
     legajo: number;
 
     @ManyToOne(() => RoleEntity, (role) => role.users, { eager: true })
-    @JoinColumn({ name: 'roleId' })
+    @JoinColumn({ name: 'role_id' })
     role: RoleEntity;
 
     // @ManyToOne(() => TipoDniEntity, (tipoDni) => tipoDni.users, { eager: true })
