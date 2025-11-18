@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Req } from '@nestjs/common';
+import { Body, Controller, Get, Head, Headers, Param, Post, Req } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { LoginDTO } from '../dto/login.dto';
 import { RegisterDTO } from '../dto/register.dto';
@@ -14,13 +14,14 @@ export class UsersController {
     ) { }
 
     @Post('login')
-    async login(@Body() loginBody: LoginDTO) {
-        await this.captchaService.validateCaptcha(loginBody.captchaToken);
+    async login(@Body() loginBody: LoginDTO, @Headers('x-captcha-token') captchaToken: string) {
+        await this.captchaService.validateCaptcha(captchaToken);
         return this.service.login(loginBody);
     }
 
     @Post('register')
-    register(@Body() registerBody: RegisterDTO) {
+    async register(@Body() registerBody: RegisterDTO, @Headers('x-captcha-token') captchaToken: string) {
+        await this.captchaService.validateCaptcha(captchaToken);
         return this.service.register(registerBody);
     }
 
