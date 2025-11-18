@@ -24,8 +24,8 @@ export class UsersService {
         @InjectRepository(UserEntity)
         private readonly repository: Repository<UserEntity>,
         private readonly jwtService: JwtService,
-    ) {}
-    
+    ) { }
+
 
     async login(loginBody: LoginDTO) {
         const user = await this.repository.findOne({
@@ -59,7 +59,6 @@ export class UsersService {
         if (userExists) {
             throw new BadRequestException('User already exists');
         }
-        this.validarContrasena(registerBody.contrasena);
 
         const roleCliente = await this.repository.findOne({
             where: { id: 1 },
@@ -86,7 +85,7 @@ export class UsersService {
 
         return { status: 'created' };
     }
-    
+
 
     async registerEmpleado(datosEmpleado: RegisterEmpleadoDTO) {
         const userExists = await this.repository.findOneBy({

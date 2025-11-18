@@ -5,4 +5,7 @@ export class LoginDTO {
 
     @IsNotEmpty({ message: 'La contraseña es obligatoria.' })
     password: string;
+
+    @IsNotEmpty({ message: 'El captcha es obligatorio.' })
+    captchaToken: string;
 }

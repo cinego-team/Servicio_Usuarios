@@ -5,13 +5,17 @@ import { RegisterDTO } from '../dto/register.dto';
 import { Request } from 'express';
 import { RequestWithUser } from 'src/interfaces/request-user.interface';
 import { RegisterEmpleadoDTO } from 'src/dto/register-empleado.dto';
+import { CaptchaService } from 'src/services/captcha-service';
 
 @Controller('usuarios')
 export class UsersController {
-    constructor(private service: UsersService) {}
+    constructor(private service: UsersService,
+        private captchaService: CaptchaService
+    ) { }
 
     @Post('login')
-    login(@Body() loginBody: LoginDTO) {
+    async login(@Body() loginBody: LoginDTO) {
+        await this.captchaService.validateCaptcha(loginBody.captchaToken);
         return this.service.login(loginBody);
     }
 
