@@ -25,6 +25,7 @@ export class UsersService {
         private readonly repository: Repository<UserEntity>,
         private readonly jwtService: JwtService,
     ) {}
+    
 
     async login(loginBody: LoginDTO) {
         const user = await this.repository.findOne({
@@ -58,6 +59,7 @@ export class UsersService {
         if (userExists) {
             throw new BadRequestException('User already exists');
         }
+        this.validarContrasena(registerBody.contrasena);
 
         const roleCliente = await this.repository.findOne({
             where: { id: 1 },
@@ -84,6 +86,7 @@ export class UsersService {
 
         return { status: 'created' };
     }
+    
 
     async registerEmpleado(datosEmpleado: RegisterEmpleadoDTO) {
         const userExists = await this.repository.findOneBy({
@@ -93,7 +96,6 @@ export class UsersService {
         if (userExists.role.tipoCliente != null) {
             throw new BadRequestException('El usuario ya está registrado.');
         }
-
         const roleEmpleado = await this.repository.findOne({
             where: { id: datosEmpleado.roleId },
             relations: ['tipoCliente', 'permissions'],
