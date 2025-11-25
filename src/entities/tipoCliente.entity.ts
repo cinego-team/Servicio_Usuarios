@@ -6,10 +6,10 @@ export class TipoClienteEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ unique: true })
+    @Column({ type: 'varchar', length: 100 })
     denominacion: string;
 
-    @Column()
+    @Column({ type: 'varchar', length: 255 })
     descripcion: string;
 
     @OneToOne(() => RoleEntity, (role) => role.tipoCliente)
