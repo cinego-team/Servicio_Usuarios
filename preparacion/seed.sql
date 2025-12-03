@@ -5,12 +5,12 @@ insert into roles (id, name) values
 insert into permission (id, code) values
 (1, 'EMPLEADO'),
 (2, 'CLIENTE');
-insert into users (id, email, contrasena, role_id) values
-(1, 'email1@jotmail.com', '$2b$10$KDQxgwkdaKTWJD8y5GSyAeDfu6DaNIypIo5qG7/x7e1qN.WjnhuWq', 1),
-(2, 'email2@jotmail.com', '$2b$10$59tcm4WzdfvHUYTEMyjqeeUpg7cRPuQKoqe7PMOtEI4I7.o1gg1HG', 1),
-(3, 'email3@jotmail.com', '$2b$10$Lw17SNre/cfCTkA33/o4Z.1u5tpjWAi8AMVLVYNRaVxxIrf1TXO6u', 2),
-(4, 'email4@jotmail.com', '$2b$10$.UIsZbO6NBaGq1XQLiYAr.xWaKBOVgEsvsJyWmyc.KLDIzDvc3E/O', 2);
-insert into roles_permissions ("role_id", "permission_id") values
+insert into users (id, nombre, apellido, email, contrasena, fecha_nacimiento, nro_telefono, legajo, role_id) values
+(1, 'Ramiro', 'Lynch Ramonda', 'ramiro@hotmail.com', '$2b$10$KDQxgwkdaKTWJD8y5GSyAeDfu6DaNIypIo5qG7/x7e1qN.WjnhuWq', '2003-11-26', '3535649261', 15886, 1),
+(2, 'Valentino', 'Pajón', 'valentino@hotmail.com', '$2b$10$59tcm4WzdfvHUYTEMyjqeeUpg7cRPuQKoqe7PMOtEI4I7.o1gg1HG', '2004-04-07', '3534413564', 16338, 1),
+(3, 'Gianella', 'Rocha Vendivengo', 'gianella@hotmail.com', '$2b$10$Lw17SNre/cfCTkA33/o4Z.1u5tpjWAi8AMVLVYNRaVxxIrf1TXO6u', '2004-11-21', '3537580542', 15662, 2),
+(4, 'Camila', 'Villarreal', 'camila@hotmail.com', '$2b$10$.UIsZbO6NBaGq1XQLiYAr.xWaKBOVgEsvsJyWmyc.KLDIzDvc3E/O', '2004-11-28', '3534770446', 15695, 2);
+insert into roles_permissions (role_id, permission_id) values
 (1, 1),
 (1, 2),
 (2, 2);
@@ -19,7 +19,7 @@ insert into roles_permissions ("role_id", "permission_id") values
 insert into estado_venta (nombre) values ('APROBADA'), ('RECHAZADA'), ('PENDIENTE DE PAGO');
 
 \c msfuncionesysalas
-insert into estado_disponibilidad_butaca (nombre) values ('DISPONIBLE'), ('RESERVADA'), ('OCUPADA');
+insert into estado_disponibilidad_butaca (estado_butaca) values ('DISPONIBLE'), ('RESERVADA'), ('OCUPADA');
 insert into formato (nombre, precio) values ('2D', 6000), ('3D', 8000);
 insert into sala (esta_disponible, nro_sala)
 values
@@ -209,7 +209,7 @@ insert into clasificacion (nombre) values
 ('PENDIENTE DE CLASIFICACION');
 insert into idioma (nombre) values ('ORIGINAL'), ('DOBLAJE CASTELLANO');
 insert into pelicula 
-(director, duracion, fecha_estreno, sinopsis, titulo, idioma_id, clasificacion, genero, estado_pelicula, empleado_responsable) 
+(director, duracion, fecha_estreno, sinopsis, titulo, idioma_id, clasificacion_id, genero_id, estado_id, empleado_responsable) 
 values
 ('CHRISTOPHER NOLAN', 180, '2023-07-20', 'UN FISICO LIDERA EL PROYECTO PARA CONSTRUIR LA PRIMERA BOMBA ATOMICA DURANTE LA SEGUNDA GUERRA MUNDIAL.', 'OPPENHEIMER', 1, 3, 17, 1, 1),
 ('GRETA GERWIG', 114, '2023-07-21', 'UNA MUÑECA QUE VIVE EN BARBIELAND COMIENZA UNA AVENTURA EN EL MUNDO REAL PARA DESCUBRIR QUIEN ES EN REALIDAD.', 'BARBIE', 1, 1, 9, 1, 1),

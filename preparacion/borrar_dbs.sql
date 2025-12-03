@@ -1,3 +1,5 @@
+\c postgres
+
 drop database msusuarios;
 drop database msventas;
 drop database msfuncionesysalas;

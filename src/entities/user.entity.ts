@@ -28,9 +28,6 @@ export class UserEntity {
     @Column({ type: 'date', name: 'fecha_nacimiento' })
     fechaNacimiento: Date;
 
-    // @Column({ type: 'varchar', length: 15, unique: true })
-    // nroDni: string;
-
     @Column({ type: 'varchar', length: 20, name: 'nro_telefono' })
     nroTelefono: string;
 
@@ -40,8 +37,4 @@ export class UserEntity {
     @ManyToOne(() => RoleEntity, (role) => role.users, { eager: true })
     @JoinColumn({ name: 'role_id' })
     role: RoleEntity;
-
-    // @ManyToOne(() => TipoDniEntity, (tipoDni) => tipoDni.users, { eager: true })
-    // @JoinColumn({ name: 'tipoDniId' })
-    // tipoDni: TipoDniEntity;
 }
