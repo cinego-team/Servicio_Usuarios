@@ -1,27 +1,24 @@
-import { Body, Controller, Get, Head, Headers, Param, Post, Req } from '@nestjs/common';
+import { Body, Controller, Get, Head, Headers, Param, Post, Req, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { LoginDTO } from '../dto/login.dto';
 import { RegisterDTO } from '../dto/register.dto';
 import { Request } from 'express';
 import { RequestWithUser } from 'src/interfaces/request-user.interface';
 import { RegisterEmpleadoDTO } from 'src/dto/register-empleado.dto';
-import { CaptchaService } from 'src/services/captcha-service';
+import { AuthGuard } from '../middlewares/auth.middleware';
 
-@Controller('usuarios')
+@Controller('usuario')
 export class UsersController {
     constructor(private service: UsersService,
-        private captchaService: CaptchaService
     ) { }
 
     @Post('login')
-    async login(@Body() loginBody: LoginDTO, @Headers('x-captcha-token') captchaToken: string) {
-        await this.captchaService.validateCaptcha(captchaToken);
+    login(@Body() loginBody: LoginDTO) {
         return this.service.login(loginBody);
     }
 
     @Post('register')
-    async register(@Body() registerBody: RegisterDTO, @Headers('x-captcha-token') captchaToken: string) {
-        await this.captchaService.validateCaptcha(captchaToken);
+    async register(@Body() registerBody: RegisterDTO) {
         return this.service.register(registerBody);
     }
 
@@ -31,6 +28,7 @@ export class UsersController {
     }
 
     @Get('can-do/:permission')
+    @UseGuards(AuthGuard)
     canDo(
         @Req() request: RequestWithUser,
         @Param('permission') permission: string,

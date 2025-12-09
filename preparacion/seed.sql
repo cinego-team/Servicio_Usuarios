@@ -1,15 +1,15 @@
 \c msusuarios;
-insert into roles (id, name) values
-(1, 'EMPLEADO'),
-(2, 'CLIENTE');
-insert into permission (id, code) values
-(1, 'EMPLEADO'),
-(2, 'CLIENTE');
-insert into users (id, nombre, apellido, email, contrasena, fecha_nacimiento, nro_telefono, legajo, role_id) values
-(1, 'Ramiro', 'Lynch Ramonda', 'ramiro@hotmail.com', '$2b$10$KDQxgwkdaKTWJD8y5GSyAeDfu6DaNIypIo5qG7/x7e1qN.WjnhuWq', '2003-11-26', '3535649261', 15886, 1),
-(2, 'Valentino', 'Pajón', 'valentino@hotmail.com', '$2b$10$59tcm4WzdfvHUYTEMyjqeeUpg7cRPuQKoqe7PMOtEI4I7.o1gg1HG', '2004-04-07', '3534413564', 16338, 1),
-(3, 'Gianella', 'Rocha Vendivengo', 'gianella@hotmail.com', '$2b$10$Lw17SNre/cfCTkA33/o4Z.1u5tpjWAi8AMVLVYNRaVxxIrf1TXO6u', '2004-11-21', '3537580542', 15662, 2),
-(4, 'Camila', 'Villarreal', 'camila@hotmail.com', '$2b$10$.UIsZbO6NBaGq1XQLiYAr.xWaKBOVgEsvsJyWmyc.KLDIzDvc3E/O', '2004-11-28', '3534770446', 15695, 2);
+insert into roles (name) values
+('EMPLEADO'),
+('CLIENTE');
+insert into permission (code) values
+('EMPLEADO'),
+('CLIENTE');
+insert into users (nombre, apellido, email, contrasena, fecha_nacimiento, nro_telefono, legajo, role_id) values
+('Ramiro', 'Lynch Ramonda', 'ramiro@hotmail.com', '$2b$10$KDQxgwkdaKTWJD8y5GSyAeDfu6DaNIypIo5qG7/x7e1qN.WjnhuWq', '2003-11-26', '3535649261', 15886, 1),
+('Valentino', 'Pajón', 'valentino@hotmail.com', '$2b$10$59tcm4WzdfvHUYTEMyjqeeUpg7cRPuQKoqe7PMOtEI4I7.o1gg1HG', '2004-04-07', '3534413564', 16338, 1),
+('Gianella', 'Rocha Vendivengo', 'gianella@hotmail.com', '$2b$10$Lw17SNre/cfCTkA33/o4Z.1u5tpjWAi8AMVLVYNRaVxxIrf1TXO6u', '2004-11-21', '3537580542', 15662, 2),
+('Camila', 'Villarreal', 'camila@hotmail.com', '$2b$10$.UIsZbO6NBaGq1XQLiYAr.xWaKBOVgEsvsJyWmyc.KLDIzDvc3E/O', '2004-11-28', '3534770446', 15695, 2);
 insert into roles_permissions (role_id, permission_id) values
 (1, 1),
 (1, 2),

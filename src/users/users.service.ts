@@ -28,12 +28,14 @@ export class UsersService {
 
 
     async login(loginBody: LoginDTO) {
+        console.log(loginBody)
         const user = await this.repository.findOne({
             where: { email: loginBody.email },
         });
         if (user == null) {
             throw new NotFoundException('User not found');
         }
+        console.log(user)
         const compareResult = compareSync(loginBody.password, user.contrasena);
         if (!compareResult) {
             throw new UnauthorizedException('Invalid password');
@@ -61,8 +63,8 @@ export class UsersService {
         }
 
         const roleCliente = await this.repository.findOne({
-            where: { id: 1 },
-            relations: ['tipoCliente', 'permissions'],
+            where: { id: 2 },
+            relations: ['role', 'role.tipoCliente', 'role.permissions'],
         });
 
         const user = this.repository.create({
