@@ -52,9 +52,9 @@ export class JwtService {
                 refreshToken:
                     timeToExpire < 15
                         ? this.generateToken(
-                              { email: payload.email },
-                              'refresh',
-                          )
+                            { email: payload.email },
+                            'refresh',
+                        )
                         : refreshToken,
             };
         } catch (error) {
@@ -67,7 +67,6 @@ export class JwtService {
     // [
     getPayload(token: string, type: 'refresh' | 'auth' = 'auth'): Payload {
         const decoded = verify(token, this.config[type].secret);
-
         if (typeof decoded === 'string') {
             throw new UnauthorizedException('Invalid token');
         }

@@ -12,6 +12,11 @@ export class UsersController {
     constructor(private service: UsersService,
     ) { }
 
+    @Get('api/:id')
+    getUserById(@Param('id') id: number) {
+        return this.service.getUserById(id);
+    }
+
     @Post('login')
     login(@Body() loginBody: LoginDTO) {
         return this.service.login(loginBody);
@@ -43,9 +48,12 @@ export class UsersController {
         );
     }
 
-    @Get('datos-cliente/:id')
-    getDatosClienteById(@Param('id') id: number) {
-        return this.service.getDatosClienteById(id);
+    @UseGuards(AuthGuard)
+    @Get('datos-cliente')
+    getDatosClienteById(
+        @Req() request: RequestWithUser
+    ) {
+        return this.service.getDatosClienteById(request.user.id);
     }
 
     @Get('datos-empleado/:id')
