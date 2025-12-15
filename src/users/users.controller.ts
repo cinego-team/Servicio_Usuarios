@@ -1,4 +1,14 @@
-import { Body, Controller, Get, Head, Headers, Param, Post, Req, UseGuards } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Get,
+    Head,
+    Headers,
+    Param,
+    Post,
+    Req,
+    UseGuards,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { LoginDTO } from '../dto/login.dto';
 import { RegisterDTO } from '../dto/register.dto';
@@ -9,8 +19,7 @@ import { AuthGuard } from '../middlewares/auth.middleware';
 
 @Controller('usuario')
 export class UsersController {
-    constructor(private service: UsersService,
-    ) { }
+    constructor(private service: UsersService) {}
 
     @Post('login')
     login(@Body() loginBody: LoginDTO) {
@@ -22,7 +31,7 @@ export class UsersController {
         return this.service.register(registerBody);
     }
 
-    @Post('register/empleado')
+    @Post('admin/register/empleado')
     registerEmpleado(@Body() datosEmpleado: RegisterEmpleadoDTO) {
         return this.service.registerEmpleado(datosEmpleado);
     }

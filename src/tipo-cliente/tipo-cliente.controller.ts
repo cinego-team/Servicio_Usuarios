@@ -18,7 +18,7 @@ export class TipoClienteController {
     verificarExistenciaById(@Param('id') id: number) {
         return this.tipoClienteService.verificarExistenciaById(id);
     }
-    @Get(':id/admin')
+    @Get('admin/:id')
     getTipoClienteById(@Param('id') id: number) {
         return this.tipoClienteService.getTipoClienteById(id);
     }
@@ -30,11 +30,11 @@ export class TipoClienteController {
     deleteTipoCliente(@Param('id') id: number) {
         return this.tipoClienteService.deleteTipoCliente(id);
     }
-    @Post('admin/create')
+    @Post('admin/new')
     createTipoCliente(@Body() createTipoClienteDto: TipoClienteInput) {
         return this.tipoClienteService.createTipoCliente(createTipoClienteDto);
     }
-    @Put('admin/update/:id')
+    @Put('admin/:id')
     updateTipoCliente(
         @Param('id') id: number,
         @Body() updateTipoClienteDto: TipoClienteInput,

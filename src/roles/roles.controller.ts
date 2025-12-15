@@ -10,7 +10,7 @@ export class RolesController {
         return this.rolesService.createRole(name);
     }
 
-    @Get()
+    @Get('admin/all')
     getAllRoles() {
         return this.rolesService.getAllRoles();
     }
