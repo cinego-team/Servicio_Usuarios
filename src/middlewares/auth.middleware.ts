@@ -40,6 +40,9 @@ export class AuthGuard implements CanActivate {
             //Logica de permisos
             // [
             const permissions: string[] = this.reflector.get(Permissions, context.getHandler()); //Obtiene los permisos requeridos del decorador
+            if (!permissions || permissions.length === 0) {
+                return true;
+            }
             const userPermissions: string[] = user.role.permissions.map(p => p.code) || []; //Obtiene los permisos del usuario
             const hasPermission: boolean = permissions.every(p => userPermissions.includes(p)); //Verifica si el usuario tiene todos los permisos requeridos
             if (!hasPermission) {

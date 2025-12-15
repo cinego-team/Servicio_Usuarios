@@ -230,4 +230,25 @@ export class UsersService {
         }
         return true;
     }
+
+    async getUserById(id: number) {
+        try {
+            const result: UserEntity = await this.repository.findOne(
+                {
+                    where: { id },
+                    relations: ['role', 'role.tipoCliente', 'role.permissions']
+                }
+            )
+            const response = {
+                id: result.id,
+                email: result.email,
+                role: result.role
+            }
+            return response;
+        } catch (error) {
+            throw new InternalServerErrorException(
+                'Error interno del servidor',
+            )
+        }
+    }
 }

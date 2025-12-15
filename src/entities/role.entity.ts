@@ -26,7 +26,7 @@ export class RoleEntity {
     @OneToOne(() => TipoClienteEntity, (tipoCliente) => tipoCliente.role, {
         nullable: true,
     })
-    @JoinColumn({ name: 'tipo_cliente' })
+    @JoinColumn({ name: 'tipo_cliente_id' })
     tipoCliente: TipoClienteEntity | null;
 
     @ManyToMany(() => PermissionEntity)
