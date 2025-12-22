@@ -57,7 +57,7 @@ export class UsersController {
         );
     }
 
-    @UseGuards(AuthGuard)
+    @UseGuards(AuthGuard)   
     @Get('datos-cliente')
     getDatosClienteById(
         @Req() request: RequestWithUser
