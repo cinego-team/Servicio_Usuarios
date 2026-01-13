@@ -27,18 +27,24 @@ export class UsersService {
     ) {}
 
     async login(loginBody: LoginDTO) {
-        console.log(loginBody);
         const user = await this.repository.findOne({
             where: { email: loginBody.email },
+            relations: {
+                role: {
+                    permissions: true,
+                },
+            },
         });
-        if (user == null) {
+
+        if (!user) {
             throw new NotFoundException('User not found');
         }
-        console.log(user);
+
         const compareResult = compareSync(loginBody.password, user.contrasena);
         if (!compareResult) {
             throw new UnauthorizedException('Invalid password');
         }
+
         const payload = {
             sub: user.id.toString(),
             email: user.email,

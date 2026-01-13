@@ -184,10 +184,19 @@ insert into butaca (nro_butaca, fila_id) values
 ('01',69),('02',69),('03',69),('04',69),('05',69),('06',69),('07',69),('08',69),('09',69),('10',69),('11',69),('12',69),('13',69),('14',69),('15',69),
 ('01',70),('02',70),('03',70),('04',70),('05',70),('06',70),('07',70),('08',70),('09',70),('10',70),('11',70),('12',70),('13',70),('14',70),('15',70);
 
-insert into funcion (esta_disponible, fecha, pelicula_id, usuario_id, sala_id, formato_id, idioma_id) values
-(true, '2025-12-31 18:00:00', 2, 1, 4, 1, 1),
-(true, '2026-01-01 18:00:00', 2, 1, 4, 2, 2),
-(false, '2026-01-02 18:00:00', 2, 1, 4, 1, 2);
+INSERT INTO funcion (
+  esta_disponible,
+  fecha,
+  pelicula_id,
+  usuario_id,
+  "salaId",
+  "formatoId",
+  "idiomaId"
+)
+VALUES
+(true, '2025-12-31', 2, 1, 4, 1, 1),
+(true, '2026-01-01', 2, 1, 4, 2, 2),
+(false,'2026-01-02', 2, 1, 4, 1, 2);
 
 INSERT INTO disponibilidad_butaca (funcion_id, butaca_id, estado_disponibilidad_butaca_id) VALUES
 (1, 526, 1),
