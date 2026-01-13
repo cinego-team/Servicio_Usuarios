@@ -5,12 +5,12 @@ import { PermissionsService } from './permissions.service';
 export class PermissionsController {
     constructor(private permissionsService: PermissionsService) {}
 
-    @Post('create')
+    @Post('admin/create')
     createPermission(@Body('code') code: string) {
         return this.permissionsService.createPermission(code);
     }
 
-    @Get()
+    @Get('admin/all')
     getAllPermissions() {
         return this.permissionsService.getAllPermissions();
     }
