@@ -24,33 +24,31 @@ export class UsersService {
         @InjectRepository(UserEntity)
         private readonly repository: Repository<UserEntity>,
         private readonly jwtService: JwtService,
-    ) { }
-
+    ) {}
 
     async login(loginBody: LoginDTO) {
-        console.log(loginBody)
+        console.log(loginBody);
         const user = await this.repository.findOne({
             where: { email: loginBody.email },
         });
         if (user == null) {
             throw new NotFoundException('User not found');
         }
-        console.log(user)
+        console.log(user);
         const compareResult = compareSync(loginBody.password, user.contrasena);
         if (!compareResult) {
             throw new UnauthorizedException('Invalid password');
         }
-        const accessToken = this.jwtService.generateToken(
-            { email: user.email },
-            'auth',
-        );
-        const refreshToken = this.jwtService.generateToken(
-            { email: user.email },
-            'refresh',
-        );
+        const payload = {
+            sub: user.id.toString(),
+            email: user.email,
+            role: user.role.name,
+            permissions: user.role.permissions.map((p) => p.code),
+        };
+
         return {
-            accessToken: accessToken,
-            refreshToken: refreshToken,
+            accessToken: this.jwtService.generateToken(payload, 'auth'),
+            refreshToken: this.jwtService.generateToken(payload, 'refresh'),
         };
     }
 
@@ -87,7 +85,6 @@ export class UsersService {
 
         return { status: 'created' };
     }
-
 
     async registerEmpleado(datosEmpleado: RegisterEmpleadoDTO) {
         const userExists = await this.repository.findOneBy({
@@ -233,22 +230,20 @@ export class UsersService {
 
     async getUserById(id: number) {
         try {
-            const result: UserEntity = await this.repository.findOne(
-                {
-                    where: { id },
-                    relations: ['role', 'role.tipoCliente', 'role.permissions']
-                }
-            )
+            const result: UserEntity = await this.repository.findOne({
+                where: { id },
+                relations: ['role', 'role.tipoCliente', 'role.permissions'],
+            });
             const response = {
                 id: result.id,
                 email: result.email,
-                role: result.role
-            }
+                role: result.role,
+            };
             return response;
         } catch (error) {
             throw new InternalServerErrorException(
                 'Error interno del servidor',
-            )
+            );
         }
     }
 }

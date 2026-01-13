@@ -25,10 +25,7 @@ export class JwtService {
 
     // genera el token de acceso o de refresh
     // [
-    generateToken(
-        payload: { email: string },
-        type: 'refresh' | 'auth' = 'auth',
-    ): string {
+    generateToken(payload: Payload, type: 'refresh' | 'auth' = 'auth'): string {
         return sign(payload, this.config[type].secret, {
             expiresIn: this.config[type].expiresIn,
         });
@@ -43,24 +40,26 @@ export class JwtService {
     } {
         try {
             const payload = this.getPayload(refreshToken, 'refresh');
-            // Obtiene el tiempo restante en minutos hasta la expiración
+
             const timeToExpire = dayjs
                 .unix(payload.exp)
                 .diff(dayjs(), 'minute');
+
+            // sacamos exp / iat del payload
+            const { exp, iat, ...cleanPayload } = payload;
+
             return {
-                accessToken: this.generateToken({ email: payload.email }),
+                accessToken: this.generateToken(cleanPayload as Payload),
                 refreshToken:
                     timeToExpire < 15
-                        ? this.generateToken(
-                            { email: payload.email },
-                            'refresh',
-                        )
+                        ? this.generateToken(cleanPayload as Payload, 'refresh')
                         : refreshToken,
             };
-        } catch (error) {
+        } catch {
             throw new UnauthorizedException();
         }
     }
+
     // ]
 
     // verifica el token y obtiene el payload desencriptado
