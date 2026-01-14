@@ -19,7 +19,7 @@ import { AuthGuard } from '../middlewares/auth.middleware';
 
 @Controller('usuario')
 export class UsersController {
-    constructor(private service: UsersService) { }
+    constructor(private service: UsersService) {}
 
     @Get('api/:id')
     getUserById(@Param('id') id: number) {
@@ -56,12 +56,11 @@ export class UsersController {
             request.headers['refresh-token'] as string,
         );
     }
-
     @UseGuards(AuthGuard)
     @Get('datos-cliente')
-    getDatosClienteById(
-        @Req() request: RequestWithUser
-    ) {
+    getDatosClienteById(@Req() request: RequestWithUser) {
+        console.log('USER DESDE TOKEN:', request.user);
+
         return this.service.getDatosClienteById(request.user.id);
     }
 

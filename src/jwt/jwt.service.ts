@@ -66,11 +66,19 @@ export class JwtService {
     // [
     getPayload(token: string, type: 'refresh' | 'auth' = 'auth'): Payload {
         const decoded = verify(token, this.config[type].secret);
+
         if (typeof decoded === 'string') {
             throw new UnauthorizedException('Invalid token');
         }
 
-        return decoded as Payload;
+        return {
+            sub: decoded.sub,
+            role: decoded.role,
+            id: Number(decoded.sub),
+            rol: decoded.role,
+            email: decoded.email,
+            permissions: decoded.permissions,
+        } as Payload;
     }
     // ]
 }
