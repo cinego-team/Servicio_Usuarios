@@ -19,6 +19,7 @@ values ('EMPLEADO', null),
 
 insert into permission (code) values ('EMPLEADO'), ('CLIENTE');
 -- todas las contrasenas son 'Contrasena?1'
+<<<<<<< Updated upstream
 insert into
     users (
         nombre,
@@ -75,6 +76,18 @@ insert into
     roles_permissions (role_id, permission_id)
 values (1, 1),
     (2, 2);
+=======
+insert into users (nombre, apellido, email, contrasena, fecha_nacimiento, nro_telefono, legajo, role_id) values
+('Ramiro', 'Lynch Ramonda', 'ramiro@hotmail.com', '$2b$10$iH1r6fojOvqkG2PMsQQGn.HdUAjePLnY9DKDdSqojPdGSrXqmRzFq', '2003-11-26', '3535649261', 15886, 1),
+('Valentino', 'Pajón', 'valentino@hotmail.com', '$2b$10$dvamvl02P7OzNa5UILTu9OtVOnGh5SXE/XjiFyxwQovD.w8055eXe', '2004-04-07', '3534413564', 16338, 1),
+('Gianella', 'Rocha Vendivengo', 'gianella@hotmail.com', '$2b$10$1ZeXMzVq.vLKfziEGM3ROuqSIh4B4nHVZ6KwZ99sgM39AowtUBh4e', '2004-11-21', '3537580542', 15662, 2),
+('Camila', 'Villarreal', 'camila@hotmail.com', '$2b$10$bH267x2JZ0UgDQbdQ3GZZ.nRcTPHsXFvX6cBy0vbYcvbp6GzdnjA.', '2004-11-28', '3534770446', 15695, 2),
+('Maria', 'Rocha', 'gianellarochavendivengo123@gmail.com', '$2b$10$lGsg1q9DcOVrUYTB2mT2He.cBoXvLkwLUwT4LZ8kn70H3zXmsFKe6', '1980-08-08', '+543537580542', NULL, 2);
+insert into roles_permissions (role_id, permission_id) values
+(1, 1),
+(1, 2),
+(2, 2);
+>>>>>>> Stashed changes
 
 \c msventas;
 
