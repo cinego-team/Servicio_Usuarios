@@ -46,6 +46,8 @@ export class TipoClienteService {
     async createTipoCliente(
         datos: TipoClienteInput,
     ): Promise<TipoClienteOutput> {
+        console.log('DATOS RECIBIDOS:', datos);
+
         const nuevoTipo = this.repository.create({
             denominacion: datos.denominacion,
             descripcion: datos.descripcion,
