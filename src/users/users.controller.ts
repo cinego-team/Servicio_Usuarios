@@ -19,7 +19,7 @@ import { AuthGuard } from '../middlewares/auth.middleware';
 
 @Controller('usuario')
 export class UsersController {
-    constructor(private service: UsersService) {}
+    constructor(private service: UsersService) { }
 
     @Get('api/:id')
     getUserById(@Param('id') id: number) {
@@ -64,9 +64,11 @@ export class UsersController {
         return this.service.getDatosClienteById(request.user.id);
     }
 
-    @Get('datos-empleado/:id')
-    getDatosEmpleadoById(@Param('id') id: number) {
-        return this.service.getDatosEmpleadoById(id);
+    @UseGuards(AuthGuard)
+    @Get('datos-empleado')
+    getDatosEmpleadoById(@Req() request: RequestWithUser) {
+        console.log(request);
+        return this.service.getDatosEmpleadoById(request.user.id);
     }
 
     @Get('find-by-email/:email')
