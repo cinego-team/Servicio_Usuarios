@@ -19,6 +19,7 @@ values ('EMPLEADO', null),
 
 insert into permission (code) values ('EMPLEADO'), ('CLIENTE');
 -- todas las contrasenas son 'Contrasena?1'
+<<<<<<< Updated upstream
 insert into
     users (
         nombre,

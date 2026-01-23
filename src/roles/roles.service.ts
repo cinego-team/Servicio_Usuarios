@@ -12,9 +12,12 @@ export class RolesService {
     async createRole(roleName: string) {
         const role = this.roleRepo.create({ name: roleName });
         await this.roleRepo.save(role);
-        return {'status':'created'};
+        return { status: 'created' };
     }
     async getAllRoles() {
         return this.roleRepo.find();
+    }
+    async getRoleById(id: number) {
+        return this.roleRepo.findOneBy({ id });
     }
 }

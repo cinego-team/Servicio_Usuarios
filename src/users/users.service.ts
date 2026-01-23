@@ -17,6 +17,7 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DatosClienteDTO } from 'src/dto/datos-cliente.dto';
 import { DatosEmpleadoDTO } from 'src/dto/datos-empleado.dto';
+import { RolesService } from 'src/roles/roles.service';
 
 @Injectable()
 export class UsersService {
@@ -24,6 +25,7 @@ export class UsersService {
         @InjectRepository(UserEntity)
         private readonly repository: Repository<UserEntity>,
         private readonly jwtService: JwtService,
+        private readonly rolesService: RolesService,
     ) {}
 
     async login(loginBody: LoginDTO) {
@@ -93,23 +95,30 @@ export class UsersService {
     }
 
     async registerEmpleado(datosEmpleado: RegisterEmpleadoDTO) {
+        // 1️ Validar email duplicado
         const userExists = await this.repository.findOneBy({
             email: datosEmpleado.email,
         });
 
-        if (userExists.role.tipoCliente != null) {
+        if (userExists) {
             throw new BadRequestException('El usuario ya está registrado.');
         }
-        const roleEmpleado = await this.repository.findOne({
-            where: { id: datosEmpleado.roleId },
-            relations: ['tipoCliente', 'permissions'],
-        });
 
+        //  Buscar rol vía service
+        const roleEmpleado = await this.rolesService.getRoleById(
+            datosEmpleado.roleId,
+        );
+
+        if (!roleEmpleado) {
+            throw new BadRequestException('Rol inválido');
+        }
+
+        // 3Crear usuario
         const user = this.repository.create({
             nombre: datosEmpleado.nombre,
             apellido: datosEmpleado.apellido,
             email: datosEmpleado.email,
-            contrasena: datosEmpleado.contrasena,
+            contrasena: hashSync(datosEmpleado.contrasena, 10),
             fechaNacimiento: new Date(
                 datosEmpleado.aaaa,
                 datosEmpleado.mm - 1,
@@ -119,10 +128,10 @@ export class UsersService {
             role: roleEmpleado,
         });
 
-        user.contrasena = hashSync(user.contrasena, 10);
-        user.legajo = user.id;
+        const savedUser = await this.repository.save(user);
 
-        await this.repository.save(user);
+        savedUser.legajo = savedUser.id;
+        await this.repository.save(savedUser);
 
         return { status: 'created' };
     }
