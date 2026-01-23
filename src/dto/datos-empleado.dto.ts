@@ -6,5 +6,12 @@ export class DatosEmpleadoDTO {
     fechaNacimiento: Date;
     nroTelefono: string;
     legajo: number;
-    role: string;
+    role: {
+        id: number;
+        name: string;
+    };
+    permissions: {
+        id: number;
+        code: string;
+    }[];
 }

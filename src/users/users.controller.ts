@@ -63,14 +63,18 @@ export class UsersController {
 
         return this.service.getDatosClienteById(request.user.id);
     }
-
-    @Get('datos-empleado/:id')
-    getDatosEmpleadoById(@Param('id') id: number) {
-        return this.service.getDatosEmpleadoById(id);
+    @UseGuards(AuthGuard)
+    @Get('datos-empleado')
+    getDatosEmpleado(@Req() req: RequestWithUser) {
+        return this.service.getDatosEmpleadoById(req.user.id);
     }
 
     @Get('find-by-email/:email')
     findByEmail(@Param('email') email: string) {
         return this.service.findByEmail(email);
+    }
+    @Get('admin/datos-cliente/:id')
+    getDatosClienteByIdForVenta(@Param('id') id: number) {
+        return this.service.getDatosClienteByIdForVenta(id);
     }
 }

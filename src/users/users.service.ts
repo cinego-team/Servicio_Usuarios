@@ -166,43 +166,37 @@ export class UsersService {
             );
         }
     }
-
-    async getDatosEmpleadoById(id: number): Promise<DatosEmpleadoDTO> {
+    async getDatosEmpleadoById(id: number) {
         const user = await this.repository.findOne({
             where: { id },
-            select: [
-                'id',
-                'nombre',
-                'apellido',
-                'email',
-                'fechaNacimiento',
-                'nroTelefono',
-            ],
             relations: ['role', 'role.permissions', 'role.tipoCliente'],
         });
+
         if (!user) {
             throw new NotFoundException('No se encontró ningún usuario.');
         }
+
         if (user.role.tipoCliente != null) {
             throw new BadRequestException('El usuario no es un empleado.');
         }
-        try {
-            const respuesta: DatosEmpleadoDTO = {
-                id: user.id,
-                nombre: user.nombre,
-                apellido: user.apellido,
-                email: user.email,
-                fechaNacimiento: user.fechaNacimiento,
-                nroTelefono: user.nroTelefono,
-                legajo: user.legajo,
-                role: user.role.name,
-            };
-            return respuesta;
-        } catch (error) {
-            throw new InternalServerErrorException(
-                'Error interno del servidor',
-            );
-        }
+
+        return {
+            id: user.id,
+            nombre: user.nombre,
+            apellido: user.apellido,
+            email: user.email,
+            fechaNacimiento: user.fechaNacimiento,
+            nroTelefono: user.nroTelefono,
+            legajo: user.legajo,
+            role: {
+                id: user.role.id,
+                name: user.role.name,
+            },
+            permissions: user.role.permissions.map((p) => ({
+                id: p.id,
+                code: p.code,
+            })),
+        };
     }
 
     async findByEmail(email: string): Promise<UserEntity> {
@@ -246,6 +240,45 @@ export class UsersService {
                 role: result.role,
             };
             return response;
+        } catch (error) {
+            throw new InternalServerErrorException(
+                'Error interno del servidor',
+            );
+        }
+    }
+    async getDatosClienteByIdForVenta(id: number): Promise<DatosClienteDTO> {
+        const user = await this.repository.findOne({
+            where: { id },
+            select: [
+                'id',
+                'nombre',
+                'apellido',
+                'email',
+                'fechaNacimiento',
+                'nroTelefono',
+            ],
+            relations: ['role', 'role.tipoCliente'],
+        });
+        if (!user) {
+            throw new NotFoundException('No se encontró ningún usuario.');
+        }
+        if (user.role.tipoCliente == null) {
+            throw new BadRequestException('El usuario no es un cliente.');
+        }
+        try {
+            const respuesta: DatosClienteDTO = {
+                id: user.id,
+                nombre: user.nombre,
+                apellido: user.apellido,
+                email: user.email,
+                fechaNacimiento: user.fechaNacimiento,
+                nroTelefono: user.nroTelefono,
+                tipoCliente: {
+                    denominacion: user.role.tipoCliente.denominacion,
+                    descripcion: user.role.tipoCliente.descripcion,
+                },
+            };
+            return respuesta;
         } catch (error) {
             throw new InternalServerErrorException(
                 'Error interno del servidor',
