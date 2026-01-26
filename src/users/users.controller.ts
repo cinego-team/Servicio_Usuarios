@@ -77,4 +77,9 @@ export class UsersController {
     getDatosClienteByIdForVenta(@Param('id') id: number) {
         return this.service.getDatosClienteByIdForVenta(id);
     }
+
+    @Get('admin/datos-empleado/:id')
+    getDatosEmpleadoByIdAdmin(@Param('id') id: number) {
+        return this.service.getDatosEmpleadoById(+id);
+    }
 }

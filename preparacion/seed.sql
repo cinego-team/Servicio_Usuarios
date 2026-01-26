@@ -19,7 +19,6 @@ values ('EMPLEADO', null),
 
 insert into permission (code) values ('EMPLEADO'), ('CLIENTE');
 -- todas las contrasenas son 'Contrasena?1'
-<<<<<<< Updated upstream
 insert into
     users (
         nombre,
@@ -95,19 +94,28 @@ insert into
 values ('APROBADA'),
     ('RECHAZADA'),
     ('PENDIENTE DE PAGO');
-INSERT INTO venta
-(fecha, total, promocion_id, estado_venta_id, cliente_id, fecha_funcion, hora_funcion)
+
+INSERT INTO
+    venta (
+        fecha,
+        total,
+        promocion_id,
+        estado_venta_id,
+        cliente_id,
+        fecha_funcion,
+        hora_funcion
+    )
 VALUES
--- Gianella compra el 20/12 para función el 31/12
-(
-    '2025-12-20',
-    12000.00,
-    NULL,
-    1,
-    3,
-    '2025-12-31',
-    '21:00'
-),
+    -- Gianella compra el 20/12 para función el 31/12
+    (
+        '2025-12-20',
+        12000.00,
+        NULL,
+        1,
+        3,
+        '2025-12-31',
+        '21:00'
+    ),
 
 -- Camila compra el 22/12 para función el 01/01
 (
@@ -152,21 +160,50 @@ VALUES
     '2025-12-31',
     '23:00'
 );
-INSERT INTO entrada
-(token, es_usado, expiracion, disponibilidad_butaca_id, venta_id)
+
+INSERT INTO
+    entrada (
+        token,
+        es_usado,
+        expiracion,
+        disponibilidad_butaca_id,
+        venta_id
+    )
 VALUES
--- Venta 1 – APROBADA (Gianella – función 31/12 21:00)
-('seed-v1-e1', false, '2025-12-31', 101, 1),
-('seed-v1-e2', false, '2025-12-31', 102, 1),
+    -- Venta 1 – APROBADA (Gianella – función 31/12 21:00)
+    (
+        'seed-v1-e1',
+        false,
+        '2025-12-31',
+        101,
+        1
+    ),
+    (
+        'seed-v1-e2',
+        false,
+        '2025-12-31',
+        102,
+        1
+    ),
 
 -- Venta 2 – APROBADA (Camila – función 01/01 19:30)
-('seed-v2-e1', false, '2026-01-01', 103, 2),
+( 'seed-v2-e1', false, '2026-01-01', 103, 2 ),
 
 -- Venta 5 – APROBADA (Camila – función 31/12 23:00)
-('seed-v5-e1', false, '2025-12-31', 106, 5),
-('seed-v5-e2', false, '2025-12-31', 107, 5);
-
-
+(
+    'seed-v5-e1',
+    false,
+    '2025-12-31',
+    106,
+    5
+),
+(
+    'seed-v5-e2',
+    false,
+    '2025-12-31',
+    107,
+    5
+);
 
 \c msfuncionesysalas
 insert into idioma (nombre) values ('ORIGINAL'), ('DOBLAJE CASTELLANO');
@@ -2040,7 +2077,8 @@ values (
         1,
         1
     );
-    \c mspromociones
+
+\c mspromociones
     insert into dias (nombre) values ('LUNES'),
     ('MARTES'),
     ('MIERCOLES'),
@@ -2048,7 +2086,24 @@ values (
     ('VIERNES'),
     ('SABADO'),
     ('DOMINGO');
-insert into promocion (nombre, porcentaje_descuento, tipo_cliente_id,dia_id) values 
-(' 2 X 1', 50, 1, 3),
-('DESCUENTO JUBILADOS', 70,2,7),
-('JUEVES UNIVERSITARIO', 40,3,4);
+
+insert into
+    promocion (
+        nombre,
+        porcentaje_descuento,
+        tipo_cliente_id,
+        dia_id
+    )
+values (' 2 X 1', 50, 1, 3),
+    (
+        'DESCUENTO JUBILADOS',
+        70,
+        2,
+        7
+    ),
+    (
+        'JUEVES UNIVERSITARIO',
+        40,
+        3,
+        4
+    );
