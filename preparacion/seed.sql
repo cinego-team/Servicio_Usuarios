@@ -1358,15 +1358,18 @@ INSERT INTO
     funcion (
         esta_disponible,
         fecha,
+        hora,
         pelicula_id,
         usuario_id,
         "salaId",
         "formatoId",
-        "idiomaId"
+        "idiomaId",
+        
     )
 VALUES (
         true,
         '2025-12-31',
+        '20:00',
         2,
         1,
         4,
@@ -1376,6 +1379,7 @@ VALUES (
     (
         true,
         '2026-01-01',
+        '16:00',
         2,
         1,
         4,
@@ -1385,6 +1389,7 @@ VALUES (
     (
         false,
         '2026-01-02',
+        '18:30',
         2,
         1,
         4,
