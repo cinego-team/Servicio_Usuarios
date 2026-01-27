@@ -95,46 +95,54 @@ export class UsersService {
     }
 
     async registerEmpleado(datosEmpleado: RegisterEmpleadoDTO) {
-        // 1️ Validar email duplicado
-        const userExists = await this.repository.findOneBy({
-            email: datosEmpleado.email,
-        });
+    console.log('[v0 BACKEND] DTO recibido:', datosEmpleado);
+    console.log('[v0 BACKEND] Email a registrar:', datosEmpleado.email);
+    
+    // Validar email duplicado
+    const userExists = await this.repository.findOneBy({
+        email: datosEmpleado.email,
+    });
 
-        if (userExists) {
-            throw new BadRequestException('El usuario ya está registrado.');
-        }
-
-        //  Buscar rol vía service
-        const roleEmpleado = await this.rolesService.getRoleById(
-            datosEmpleado.roleId,
-        );
-
-        if (!roleEmpleado) {
-            throw new BadRequestException('Rol inválido');
-        }
-
-        // 3Crear usuario
-        const user = this.repository.create({
-            nombre: datosEmpleado.nombre,
-            apellido: datosEmpleado.apellido,
-            email: datosEmpleado.email,
-            contrasena: hashSync(datosEmpleado.contrasena, 10),
-            fechaNacimiento: new Date(
-                datosEmpleado.aaaa,
-                datosEmpleado.mm - 1,
-                datosEmpleado.dd,
-            ),
-            nroTelefono: datosEmpleado.nroTelefono,
-            role: roleEmpleado,
-        });
-
-        const savedUser = await this.repository.save(user);
-
-        savedUser.legajo = savedUser.id;
-        await this.repository.save(savedUser);
-
-        return { status: 'created' };
+    console.log('[v0 BACKEND] Usuario encontrado:', userExists);
+    if (userExists) {
+        console.log('[v0 BACKEND] Rol del usuario existente:', userExists.role?.name);
     }
+
+    if (userExists) {
+        throw new BadRequestException('El usuario ya está registrado.');
+    }
+
+    // Buscar rol vía service
+    const roleEmpleado = await this.rolesService.getRoleById(
+        datosEmpleado.roleId,
+    );
+
+    if (!roleEmpleado) {
+        throw new BadRequestException('Rol inválido');
+    }
+
+    // Crear usuario
+    const user = this.repository.create({
+        nombre: datosEmpleado.nombre,
+        apellido: datosEmpleado.apellido,
+        email: datosEmpleado.email,
+        contrasena: hashSync(datosEmpleado.contrasena, 10),
+        fechaNacimiento: new Date(
+            datosEmpleado.aaaa,
+            datosEmpleado.mm - 1,
+            datosEmpleado.dd,
+        ),
+        nroTelefono: datosEmpleado.nroTelefono,
+        role: roleEmpleado,
+    });
+
+    const savedUser = await this.repository.save(user);
+
+    savedUser.legajo = savedUser.id;
+    await this.repository.save(savedUser);
+
+    return { status: 'created' };
+}
 
     async getDatosClienteById(id: number): Promise<DatosClienteDTO> {
         const user = await this.repository.findOne({
