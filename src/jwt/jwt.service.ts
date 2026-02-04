@@ -4,7 +4,7 @@ import {
     UnauthorizedException,
 } from '@nestjs/common';
 import { sign, verify } from 'jsonwebtoken';
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs';
 import { Payload } from 'src/interfaces/payload.interface';
 
 @Injectable()
