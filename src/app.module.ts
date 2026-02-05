@@ -18,7 +18,7 @@ import { TipoClienteEntity } from "./entities/tipoCliente.entity";
             url: process.env.PG_MSUSUARIOS,
             ssl: { rejectUnauthorized: false },
             autoLoadEntities: true,
-            synchronize: false,
+            synchronize: true,
             entities: [PermissionEntity, RoleEntity, UserEntity, TipoClienteEntity],
         }),
         UsersModule,
