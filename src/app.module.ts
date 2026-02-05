@@ -15,12 +15,10 @@ import { TipoClienteEntity } from "./entities/tipoCliente.entity";
     imports: [
         TypeOrmModule.forRoot({
             type: "postgres",
-            host: "localhost",
-            port: 5432,
-            database: "msusuarios",
-            username: "postgres",
-            password: "grupou",
-            synchronize: true,
+            url: process.env.PG_MSUSUARIOS,
+            ssl: { rejectUnauthorized: false },
+            autoLoadEntities: true,
+            synchronize: false,
             entities: [PermissionEntity, RoleEntity, UserEntity, TipoClienteEntity],
         }),
         UsersModule,
