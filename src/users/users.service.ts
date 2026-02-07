@@ -6,18 +6,18 @@ import {
     NotFoundException,
     UnauthorizedException,
 } from '@nestjs/common';
-import { LoginDTO } from 'src/dto/login.dto';
-import { RegisterDTO } from 'src/dto/register.dto';
-import { RegisterEmpleadoDTO } from 'src/dto/register-empleado.dto';
-import { UserI } from 'src/dto/user.interface';
+import { LoginDTO } from '../dto/login.dto';
+import { RegisterDTO } from '../dto/register.dto';
+import { RegisterEmpleadoDTO } from '../dto/register-empleado.dto';
+import { UserI } from '../dto/user.interface';
 import { UserEntity } from '../entities/user.entity';
 import { hashSync, compareSync } from 'bcrypt';
 import { JwtService } from '../jwt/jwt.service';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DatosClienteDTO } from 'src/dto/datos-cliente.dto';
-import { DatosEmpleadoDTO } from 'src/dto/datos-empleado.dto';
-import { RolesService } from 'src/roles/roles.service';
+import { DatosClienteDTO } from '../dto/datos-cliente.dto';
+import { DatosEmpleadoDTO } from '../dto/datos-empleado.dto';
+import { RolesService } from '../roles/roles.service';
 
 @Injectable()
 export class UsersService {

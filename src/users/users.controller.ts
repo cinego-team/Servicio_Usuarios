@@ -13,13 +13,13 @@ import { UsersService } from './users.service';
 import { LoginDTO } from '../dto/login.dto';
 import { RegisterDTO } from '../dto/register.dto';
 import { Request } from 'express';
-import { RequestWithUser } from 'src/interfaces/request-user.interface';
-import { RegisterEmpleadoDTO } from 'src/dto/register-empleado.dto';
+import { RequestWithUser } from '../interfaces/request-user.interface';
+import { RegisterEmpleadoDTO } from '../dto/register-empleado.dto';
 import { AuthGuard } from '../middlewares/auth.middleware';
 
 @Controller('usuario')
 export class UsersController {
-    constructor(private service: UsersService) {}
+    constructor(private service: UsersService) { }
 
     @Get('api/:id')
     getUserById(@Param('id') id: number) {
