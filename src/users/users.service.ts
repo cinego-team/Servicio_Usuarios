@@ -26,38 +26,44 @@ export class UsersService {
         private readonly repository: Repository<UserEntity>,
         private readonly jwtService: JwtService,
         private readonly rolesService: RolesService,
-    ) {}
+    ) { }
 
     async login(loginBody: LoginDTO) {
-        const user = await this.repository.findOne({
-            where: { email: loginBody.email },
-            relations: {
-                role: {
-                    permissions: true,
+        try {
+
+            const user = await this.repository.findOne({
+                where: { email: loginBody.email },
+                relations: {
+                    role: {
+                        permissions: true,
+                    },
                 },
-            },
-        });
+            });
 
-        if (!user) {
-            throw new NotFoundException('User not found');
+            if (!user) {
+                throw new NotFoundException('User not found');
+            }
+
+            const compareResult = compareSync(loginBody.password, user.contrasena);
+            if (!compareResult) {
+                throw new UnauthorizedException('Invalid password');
+            }
+
+            const payload = {
+                sub: user.id.toString(),
+                email: user.email,
+                role: user.role.name,
+                permissions: user.role.permissions.map((p) => p.code),
+            };
+
+            return {
+                accessToken: this.jwtService.generateToken(payload, 'auth'),
+                refreshToken: this.jwtService.generateToken(payload, 'refresh'),
+            };
+        } catch (error) {
+            console.log('Error en login:', error);
+            throw error;
         }
-
-        const compareResult = compareSync(loginBody.password, user.contrasena);
-        if (!compareResult) {
-            throw new UnauthorizedException('Invalid password');
-        }
-
-        const payload = {
-            sub: user.id.toString(),
-            email: user.email,
-            role: user.role.name,
-            permissions: user.role.permissions.map((p) => p.code),
-        };
-
-        return {
-            accessToken: this.jwtService.generateToken(payload, 'auth'),
-            refreshToken: this.jwtService.generateToken(payload, 'refresh'),
-        };
     }
 
     async register(registerBody: RegisterDTO) {
@@ -95,54 +101,54 @@ export class UsersService {
     }
 
     async registerEmpleado(datosEmpleado: RegisterEmpleadoDTO) {
-    console.log('[v0 BACKEND] DTO recibido:', datosEmpleado);
-    console.log('[v0 BACKEND] Email a registrar:', datosEmpleado.email);
-    
-    // Validar email duplicado
-    const userExists = await this.repository.findOneBy({
-        email: datosEmpleado.email,
-    });
+        console.log('[v0 BACKEND] DTO recibido:', datosEmpleado);
+        console.log('[v0 BACKEND] Email a registrar:', datosEmpleado.email);
 
-    console.log('[v0 BACKEND] Usuario encontrado:', userExists);
-    if (userExists) {
-        console.log('[v0 BACKEND] Rol del usuario existente:', userExists.role?.name);
+        // Validar email duplicado
+        const userExists = await this.repository.findOneBy({
+            email: datosEmpleado.email,
+        });
+
+        console.log('[v0 BACKEND] Usuario encontrado:', userExists);
+        if (userExists) {
+            console.log('[v0 BACKEND] Rol del usuario existente:', userExists.role?.name);
+        }
+
+        if (userExists) {
+            throw new BadRequestException('El usuario ya está registrado.');
+        }
+
+        // Buscar rol vía service
+        const roleEmpleado = await this.rolesService.getRoleById(
+            datosEmpleado.roleId,
+        );
+
+        if (!roleEmpleado) {
+            throw new BadRequestException('Rol inválido');
+        }
+
+        // Crear usuario
+        const user = this.repository.create({
+            nombre: datosEmpleado.nombre,
+            apellido: datosEmpleado.apellido,
+            email: datosEmpleado.email,
+            contrasena: hashSync(datosEmpleado.contrasena, 10),
+            fechaNacimiento: new Date(
+                datosEmpleado.aaaa,
+                datosEmpleado.mm - 1,
+                datosEmpleado.dd,
+            ),
+            nroTelefono: datosEmpleado.nroTelefono,
+            role: roleEmpleado,
+        });
+
+        const savedUser = await this.repository.save(user);
+
+        savedUser.legajo = savedUser.id;
+        await this.repository.save(savedUser);
+
+        return { status: 'created' };
     }
-
-    if (userExists) {
-        throw new BadRequestException('El usuario ya está registrado.');
-    }
-
-    // Buscar rol vía service
-    const roleEmpleado = await this.rolesService.getRoleById(
-        datosEmpleado.roleId,
-    );
-
-    if (!roleEmpleado) {
-        throw new BadRequestException('Rol inválido');
-    }
-
-    // Crear usuario
-    const user = this.repository.create({
-        nombre: datosEmpleado.nombre,
-        apellido: datosEmpleado.apellido,
-        email: datosEmpleado.email,
-        contrasena: hashSync(datosEmpleado.contrasena, 10),
-        fechaNacimiento: new Date(
-            datosEmpleado.aaaa,
-            datosEmpleado.mm - 1,
-            datosEmpleado.dd,
-        ),
-        nroTelefono: datosEmpleado.nroTelefono,
-        role: roleEmpleado,
-    });
-
-    const savedUser = await this.repository.save(user);
-
-    savedUser.legajo = savedUser.id;
-    await this.repository.save(savedUser);
-
-    return { status: 'created' };
-}
 
     async getDatosClienteById(id: number): Promise<DatosClienteDTO> {
         const user = await this.repository.findOne({
