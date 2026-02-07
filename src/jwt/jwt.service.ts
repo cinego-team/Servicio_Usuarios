@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { sign, verify } from 'jsonwebtoken';
 import dayjs from 'dayjs';
-import { Payload } from 'src/interfaces/payload.interface';
+import { Payload } from '../interfaces/payload.interface';
 
 @Injectable()
 export class JwtService {

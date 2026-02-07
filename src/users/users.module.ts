@@ -4,8 +4,8 @@ import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 import { JwtService } from '../jwt/jwt.service';
 import { UserEntity } from '../entities/user.entity';
-import { RolesService } from 'src/roles/roles.service';
-import { RoleEntity } from 'src/entities/role.entity';
+import { RolesService } from '../roles/roles.service';
+import { RoleEntity } from '../entities/role.entity';
 
 @Module({
     imports: [
@@ -16,4 +16,4 @@ import { RoleEntity } from 'src/entities/role.entity';
     providers: [UsersService, JwtService, RolesService],
     exports: [UsersService],
 })
-export class UsersModule {}
+export class UsersModule { }

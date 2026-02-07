@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { TipoClienteEntity } from 'src/entities/tipoCliente.entity';
+import { TipoClienteEntity } from '../entities/tipoCliente.entity';
 import { Repository } from 'typeorm';
-import { TipoClienteInput, TipoClienteOutput } from 'src/dto/tipo-cliente.dto';
+import { TipoClienteInput, TipoClienteOutput } from '../dto/tipo-cliente.dto';
 import { NotFoundException } from '@nestjs/common/exceptions/not-found.exception';
 
 @Injectable()
@@ -10,7 +10,7 @@ export class TipoClienteService {
     constructor(
         @InjectRepository(TipoClienteEntity)
         private readonly repository: Repository<TipoClienteEntity>,
-    ) {}
+    ) { }
     async verificarExistenciaById(id: number): Promise<boolean> {
         const tipoCliente = await this.repository.findOne({
             where: { id },
