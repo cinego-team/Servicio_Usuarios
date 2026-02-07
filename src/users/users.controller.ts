@@ -28,6 +28,7 @@ export class UsersController {
 
     @Post('login')
     login(@Body() loginBody: LoginDTO) {
+        console.log('Login body:', loginBody);
         return this.service.login(loginBody);
     }
 
