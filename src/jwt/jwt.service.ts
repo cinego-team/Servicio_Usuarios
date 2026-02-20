@@ -40,14 +40,11 @@ export class JwtService {
     } {
         try {
             const payload = this.getPayload(refreshToken, 'refresh');
-
             const timeToExpire = dayjs
                 .unix(payload.exp)
                 .diff(dayjs(), 'minute');
-
             // sacamos exp / iat del payload
             const { exp, iat, ...cleanPayload } = payload;
-
             return {
                 accessToken: this.generateToken(cleanPayload as Payload),
                 refreshToken:
@@ -55,7 +52,7 @@ export class JwtService {
                         ? this.generateToken(cleanPayload as Payload, 'refresh')
                         : refreshToken,
             };
-        } catch {
+        } catch (error) {
             throw new UnauthorizedException();
         }
     }
@@ -78,6 +75,8 @@ export class JwtService {
             rol: decoded.role,
             email: decoded.email,
             permissions: decoded.permissions,
+            exp: decoded.exp,
+            iat: decoded.iat,
         } as Payload;
     }
     // ]
