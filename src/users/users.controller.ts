@@ -19,7 +19,7 @@ import { AuthGuard } from '../middlewares/auth.middleware';
 
 @Controller('usuario')
 export class UsersController {
-    constructor(private service: UsersService) { }
+    constructor(private service: UsersService) {}
 
     @Get('api/:id')
     getUserById(@Param('id') id: number) {
@@ -28,7 +28,6 @@ export class UsersController {
 
     @Post('login')
     login(@Body() loginBody: LoginDTO) {
-        console.log('Login body:', loginBody);
         return this.service.login(loginBody);
     }
 
@@ -60,8 +59,6 @@ export class UsersController {
     @UseGuards(AuthGuard)
     @Get('datos-cliente')
     getDatosClienteById(@Req() request: RequestWithUser) {
-        console.log('USER DESDE TOKEN:', request.user);
-
         return this.service.getDatosClienteById(request.user.id);
     }
     @UseGuards(AuthGuard)

@@ -9,7 +9,7 @@ import { JwtService } from '../jwt/jwt.service'; // cambio import { JwtService }
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-    constructor(private jwtService: JwtService) { }
+    constructor(private jwtService: JwtService) {}
 
     canActivate(context: ExecutionContext): boolean {
         const request = context.switchToHttp().getRequest();
@@ -19,10 +19,9 @@ export class AuthGuard implements CanActivate {
             throw new UnauthorizedException('Missing token');
         }
 
-        console.log(authHeader);
         const token = authHeader.replace('Bearer ', '');
         const payload = this.jwtService.getPayload(token);
-        console.log(payload);
+
         request.user = payload;
 
         return true;

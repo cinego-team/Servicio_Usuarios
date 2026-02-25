@@ -10,7 +10,7 @@ export class TipoClienteService {
     constructor(
         @InjectRepository(TipoClienteEntity)
         private readonly repository: Repository<TipoClienteEntity>,
-    ) { }
+    ) {}
     async verificarExistenciaById(id: number): Promise<boolean> {
         const tipoCliente = await this.repository.findOne({
             where: { id },
@@ -46,8 +46,6 @@ export class TipoClienteService {
     async createTipoCliente(
         datos: TipoClienteInput,
     ): Promise<TipoClienteOutput> {
-        console.log('DATOS RECIBIDOS:', datos);
-
         const nuevoTipo = this.repository.create({
             denominacion: datos.denominacion,
             descripcion: datos.descripcion,

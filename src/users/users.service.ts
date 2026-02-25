@@ -61,7 +61,7 @@ export class UsersService {
                 refreshToken: this.jwtService.generateToken(payload, 'refresh'),
             };
         } catch (error) {
-            console.log('Error en login:', error);
+      
             throw error;
         }
     }
@@ -101,17 +101,16 @@ export class UsersService {
     }
 
     async registerEmpleado(datosEmpleado: RegisterEmpleadoDTO) {
-        console.log('[v0 BACKEND] DTO recibido:', datosEmpleado);
-        console.log('[v0 BACKEND] Email a registrar:', datosEmpleado.email);
+   
 
         // Validar email duplicado
         const userExists = await this.repository.findOneBy({
             email: datosEmpleado.email,
         });
 
-        console.log('[v0 BACKEND] Usuario encontrado:', userExists);
+
         if (userExists) {
-            console.log('[v0 BACKEND] Rol del usuario existente:', userExists.role?.name);
+           
         }
 
         if (userExists) {
