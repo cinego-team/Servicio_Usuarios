@@ -3415,23 +3415,17 @@ values (
     ('SABADO'),
     ('DOMINGO');
 
-insert into
-    promocion (
-        nombre,
-        porcentaje_descuento,
-        tipo_cliente_id,
-        dia_id
-    )
-values (' 2 X 1', 50, 1, 3),
-    (
-        'DESCUENTO JUBILADOS',
-        70,
-        2,
-        7
-    ),
-    (
-        'JUEVES UNIVERSITARIO',
-        40,
-        3,
-        4
-    );
+insert into promocion (
+    nombre,
+    porcentaje_descuento,
+    tipo_cliente_id,
+    dia_id
+)
+values 
+    ('LUNES BASIC', 15, 1, 1),
+    ('MARTES 2X1 BASIC', 50, 1, 2),
+    ('MIERCOLES ESTUDIANTE', 35, 3, 3),
+    ('JUEVES UNIVERSITARIO', 40, 3, 4),
+    ('VIERNES JUBILADO', 45, 2, 5),
+    ('SABADO ESPECIAL BASIC', 20, 1, 6),
+    ('DOMINGO JUBILADO', 50, 2, 7);
